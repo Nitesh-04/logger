@@ -4,6 +4,8 @@ import com.example.LoggerPipeline.model.LogEntry;
 import com.example.LoggerPipeline.model.Severity;
 import com.example.LoggerPipeline.repository.LogRepository;
 import com.example.LoggerPipeline.service.LogService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +21,14 @@ public class LogController {
     }
 
     @PostMapping
-    public LogEntry createLog(@RequestBody LogRequest request) {
-        return logService.saveLog(
+    public ResponseEntity<LogEntry> createLog(@RequestBody LogRequest request) {
+        LogEntry saved = logService.saveLog(
                 request.getMessage(),
                 request.getSeverity(),
                 request.getUserId()
         );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @GetMapping
@@ -35,6 +39,11 @@ public class LogController {
     @GetMapping("/severity/{severity}")
     public List<LogEntry> getLogsBySeverity(@PathVariable Severity severity) {
         return logService.getLogsBySeverity(severity);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<LogEntry> getLogsByUserId(@PathVariable String userId) {
+        return logService.getLogsByUserId(userId);
     }
 
     public static class LogRequest {

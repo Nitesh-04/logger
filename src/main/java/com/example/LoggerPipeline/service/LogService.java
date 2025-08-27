@@ -30,5 +30,9 @@ public class LogService {
         return logRepository.findBySeverity(severity);
     }
 
+    public List<LogEntry> getLogsByUserId(String userId) {
+        return logRepository.findByUserId(userId);
+    }
+
 
 }

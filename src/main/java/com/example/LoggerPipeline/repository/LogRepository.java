@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface LogRepository extends JpaRepository<LogEntry,Long> {
     List<LogEntry> findBySeverity(Severity severity); // Spring auto-implements this based on method name
+    List<LogEntry> findByUserId(String userId);
 }
