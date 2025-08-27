@@ -3,10 +3,13 @@ package com.example.LoggerPipeline.service;
 import com.example.LoggerPipeline.model.LogEntry;
 import com.example.LoggerPipeline.model.Severity;
 import com.example.LoggerPipeline.repository.LogRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class LogService {
@@ -22,16 +25,19 @@ public class LogService {
         return logRepository.save(logEntry);
     }
 
-    public List<LogEntry> getAllLogs() {
-        return logRepository.findAll();
+    public Page<LogEntry> getAllLogs(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp").descending());
+        return logRepository.findAll(pageable);
     }
 
-    public List<LogEntry> getLogsBySeverity(Severity severity) {
-        return logRepository.findBySeverity(severity);
+    public Page<LogEntry> getLogsBySeverity(Severity severity, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp").descending());
+        return logRepository.findBySeverity(severity, pageable);
     }
 
-    public List<LogEntry> getLogsByUserId(String userId) {
-        return logRepository.findByUserId(userId);
+    public Page<LogEntry> getLogsByUserId(String userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("timestamp").descending());
+        return logRepository.findByUserId(userId, pageable);
     }
 
 

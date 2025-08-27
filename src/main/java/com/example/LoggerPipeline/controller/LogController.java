@@ -2,8 +2,8 @@ package com.example.LoggerPipeline.controller;
 
 import com.example.LoggerPipeline.model.LogEntry;
 import com.example.LoggerPipeline.model.Severity;
-import com.example.LoggerPipeline.repository.LogRepository;
 import com.example.LoggerPipeline.service.LogService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,18 +32,26 @@ public class LogController {
     }
 
     @GetMapping
-    public List<LogEntry> getAllLogs() {
-        return logService.getAllLogs();
+    public Page<LogEntry> getAllLogs(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return logService.getAllLogs(page, size);
     }
 
     @GetMapping("/severity/{severity}")
-    public List<LogEntry> getLogsBySeverity(@PathVariable Severity severity) {
-        return logService.getLogsBySeverity(severity);
+    public Page<LogEntry> getLogsBySeverity(
+            @PathVariable Severity severity,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return logService.getLogsBySeverity(severity, page, size);
     }
 
     @GetMapping("/user/{userId}")
-    public List<LogEntry> getLogsByUserId(@PathVariable String userId) {
-        return logService.getLogsByUserId(userId);
+    public Page<LogEntry> getLogsByUserId(
+            @PathVariable String userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return logService.getLogsByUserId(userId, page, size);
     }
 
     public static class LogRequest {
