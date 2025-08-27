@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LogRepository extends JpaRepository<LogEntry,Long> {
-    Page<LogEntry> findBySeverity(Severity severity, org.springframework.data.domain.Pageable pageable); // Spring auto-implements this based on method name
+    Page<LogEntry> findBySeverity(Severity severity, Pageable pageable); // Spring auto-implements this based on method name
     Page<LogEntry> findByUserId(String userId, Pageable pageable);
 }
